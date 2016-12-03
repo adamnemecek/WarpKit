@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import WarpKit
 
 class WarpKitTests: XCTestCase {
     
@@ -23,6 +24,12 @@ class WarpKitTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+
+//        let s = Array(0...10).shuffle()
+        let s: SortedArray = [2,1,34]
+        XCTAssert(s == [1,2,34])
+
+
     }
     
     func testPerformanceExample() {
