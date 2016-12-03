@@ -16,12 +16,13 @@ public protocol TimeSeriesCollection: BidirectionalCollection {
     /// self[timestamp...timestamp] == self[timestamp] == SubSequence
     ///
     subscript (in timerange: ClosedRange<Timestamp>) -> SubSequence { get }
+
 }
 
-extension TimeSeriesCollection {
-    public subscript(at timestamp: Timestamp) -> SubSequence {
-        return self[in: timestamp...timestamp]
-    }
+public extension TimeSeriesCollection {
+//    public subscript(at timestamp: Timestamp) -> SubSequence {
+//        return self[in: timestamp...timestamp]
+//    }
 }
 
 public protocol RRTS: TimeSeriesCollection {
@@ -37,7 +38,6 @@ public protocol RRTS: TimeSeriesCollection {
 
 public struct TimeSeries<Event: Temporal>: MutableCollection,
                                            ExpressibleByArrayLiteral,
-                                           TimeSeriesCollection,
                                            DefaultConstructible,
                                            SequenceConstructible,
                                            Equatable {
@@ -90,14 +90,12 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
     }
   }
 
-  public subscript(in timerange: ClosedRange<Timestamp>) -> SubSequence {
-    get {
-        let i = indices.filter { timerange.contains(self[$0].timestamp) }
-        guard let f = i.first else { return [] }
-        return self[f...i.last!]
-    }
-    set {
-    }
+  public func indices(in timerange: ClosedRange<Timestamp>) -> ClosedRange<Index>? {
+    guard let f = (index { timerange.contains($0.timestamp) })  else { return nil }
+    guard let l = (lastIndex { timerange.contains($0.timestamp) })  else { return nil }
+
+    fatalError()
+    return f...l
   }
 }
 
@@ -113,6 +111,26 @@ extension TimeSeries: RangeReplaceableCollection {
     content.replaceSubrange(subrange, with: newElements)
   }
 }
+
+//extension TimeSeries: TimeSeriesCollection {
+//  public subscript(in timerange: ClosedRange<Timestamp>) -> SubSequence {
+//    get {
+//        let i = indices.filter { timerange.contains(self[$0].timestamp) }
+//        guard let f = i.first else { return [] }
+//        return self[f...i.last!]
+//    }
+////    set {
+////    }
+//  }
+//}
+
+//extension TimeSeries: RRTS {
+//    public func replaceTimerange<C : Collection>(_ timerange: ClosedRange<Timestamp>, with newElements: C) where C.Iterator.Element == Event {
+//        fatalError()
+//
+//    }
+//
+//}
 
 
 public func ==<Event>(lhs: TimeSeries<Event>, rhs: TimeSeries<Event>) -> Bool {
