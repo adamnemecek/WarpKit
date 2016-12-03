@@ -30,3 +30,8 @@ extension CountableRange: RangeType { }
 extension ClosedRange: RangeType { }
 extension CountableClosedRange: RangeType { }
 
+extension RangeType {
+    public func intersect(_ other: Self) -> Self {
+        fatalError()
+    }
+}

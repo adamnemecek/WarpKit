@@ -69,7 +69,7 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
 
   public func index(of element: Element) -> Index? {
 //    fatalError("implement")
-    //todo binary search
+    //todo actually do binary search lol
     return content.index(of: element)
 //    return nil
   }
@@ -95,12 +95,8 @@ extension SortedArray: RangeReplaceableCollection {
 
   public mutating func append<S: Sequence>(contentsOf newElements: S) where S.Iterator.Element == Element {
     content.append(contentsOf: newElements)
-    content = content.sorted()
+//    content = content.sorted()
   }
-}
-
-extension SortedArray: RandomAccessCollection {
-  public typealias Indices = Array<Element>.Indices
 }
 
 extension SortedArray: CustomStringConvertible {
@@ -109,12 +105,14 @@ extension SortedArray: CustomStringConvertible {
   }
 }
 
-
 extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {
-    //todo actually do binary search lol
     return content.index(before: index)
   }
+}
+
+extension SortedArray: RandomAccessCollection {
+  public typealias Indices = Array<Element>.Indices
 }
 
 public func ==<Element>(lhs: SortedArray<Element>, rhs: SortedArray<Element>) -> Bool {

@@ -42,13 +42,13 @@ extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntege
     }
 }
 
-extension BidirectionalCollection {
-    var extrema: (first: Iterator.Element, last: Iterator.Element)? {
-        return first.map { ($0, self.last!) }
-    }
-
-
-}
+//extension BidirectionalCollection {
+//    var extrema: (first: Iterator.Element, last: Iterator.Element)? {
+//        return first.map { ($0, self.last!) }
+//    }
+//
+//
+//}
 
 extension Sequence where Iterator.Element: Hashable {
     public var unique: [Iterator.Element] {
