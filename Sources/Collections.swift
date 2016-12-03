@@ -87,4 +87,8 @@ extension Set: DefaultConstructible { }
 
 
 
+func ==<S: Sequence, T: Sequence>(lhs: S, rhs: T) -> Bool where S.Iterator.Element == T.Iterator.Element, S.Iterator.Element: Equatable {
+    return zip(lhs, rhs).all { $0 == $1 }
+}
+
 
