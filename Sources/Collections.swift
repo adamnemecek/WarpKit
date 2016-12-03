@@ -37,6 +37,8 @@ extension Sequence where Iterator.Element: Comparable {
     }
 }
 
+
+
 public extension Sequence where Iterator.Element: Hashable {
     //
     // dbj2
@@ -84,6 +86,26 @@ public extension Collection where IndexDistance == Int {
     public var random: Iterator.Element? {
         guard !isEmpty else { return nil }
         return self[randomIndex]
+    }
+
+    public func shuffle() -> [Iterator.Element] {
+        var c = Array(self)
+        c.shuffleInPlace()
+        return c
+    }
+}
+
+extension MutableCollection where Index == Int, IndexDistance == Int {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffleInPlace() {
+        // empty and single-element collections don't shuffle
+        if count < 2 { return }
+
+        for i in 0..<count - 1 {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
+            swap(&self[i], &self[j])
+        }
     }
 }
 
