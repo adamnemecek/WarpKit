@@ -32,10 +32,10 @@ extension Sequence {
 }
 
 extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntegerLiteral {
-	/// Initialize array with zeroes, ~10x faster than append for array of size 4096
-	///
-	/// - parameter count: Number of elements in the array
-	///
+    /// Initialize array with zeroes, ~10x faster than append for array of size 4096
+    ///
+    /// - parameter count: Number of elements in the array
+    ///
 
     public init(zeros count: Int) {
         self.init(repeating: 0, count: count)
@@ -51,10 +51,27 @@ extension Sequence where Iterator.Element: Hashable {
 
 extension Collection where IndexDistance == Int {
     /// Return a random element from the collection
-	public func random() -> Iterator.Element {
-		let offset = Int(arc4random_uniform(UInt32(count.toIntMax())))
-		return self[index(startIndex, offsetBy: offset)]
-	}
+    public func random() -> Iterator.Element {
+        let offset = Int(arc4random_uniform(UInt32(count.toIntMax())))
+        return self[index(startIndex, offsetBy: offset)]
+    }
 }
+
+extension Sequence where Iterator.Element: Hashable {
+    //
+    // dbj2
+    //
+    var hashValue: Int {
+        return reduce(5381) {
+            (accu, current) -> Int in
+            (accu << 5) &+ accu &+ current.hashValue
+        }
+    }
+}
+
+public protocol DefaultConstructible {
+    init()
+}
+
 
 
