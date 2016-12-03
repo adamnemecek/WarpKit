@@ -17,8 +17,8 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
   public typealias SubSequence = ArraySlice<Element>
   public typealias Index = Int
 
-  //todo fileprivate?
-  internal
+  fileprivate
+//  internal
   var content: [Element] {
     didSet {
       content = content.sorted()
@@ -116,6 +116,11 @@ extension SortedArray: CustomStringConvertible {
 extension SortedArray: BidirectionalCollection {
   public func index(before index: Index) -> Index {
     return content.index(before: index)
+  }
+
+  public func lastIndex(_ where: (Element) -> Bool) -> Index? {
+
+    fatalError()
   }
 }
 

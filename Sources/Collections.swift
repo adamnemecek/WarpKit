@@ -117,10 +117,10 @@ public extension BidirectionalCollection {
 
     // Find last index s.t. predicate
 
-	public func lastIndex(predicate: (Iterator.Element) -> Bool) -> Index? {
+	public func lastIndex(where: (Iterator.Element) -> Bool) -> Index? {
 		var i = lastIndex
 		while i != startIndex {
-			if predicate(self[i]) {
+			if `where`(self[i]) {
 				return i
 			}
 			i = index(before: i)

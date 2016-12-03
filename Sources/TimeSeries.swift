@@ -91,8 +91,9 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
   }
 
   public func indices(in timerange: ClosedRange<Timestamp>) -> ClosedRange<Index>? {
-    guard let f = (index { timerange.contains($0.timestamp) })  else { return nil }
-    guard let l = (lastIndex { timerange.contains($0.timestamp) })  else { return nil }
+    let w: (Event) -> Bool = { timerange.contains($0.timestamp) }
+    guard let f = (content.index(where: w))  else { return nil }
+    guard let l = (content.lastIndex(where: w))  else { return nil }
 
     fatalError()
     return f...l
@@ -102,6 +103,10 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
 extension TimeSeries: BidirectionalCollection {
   public func index(before index: Index) -> Index {
     return content.index(before: index)
+  }
+
+  public func lastIndex(where: (Event) -> Bool) -> Index? {
+    return content.lastIndex(where: `where`)
   }
 }
 
