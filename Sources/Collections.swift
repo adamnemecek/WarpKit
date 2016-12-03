@@ -73,5 +73,17 @@ public protocol DefaultConstructible {
     init()
 }
 
+extension Array: DefaultConstructible { }
+extension Dictionary: DefaultConstructible { }
+extension Set: DefaultConstructible { }
+
+extension Int: DefaultConstructible { }
+extension Double: DefaultConstructible { }
+extension Bool: DefaultConstructible { }
+
+
+public protocol SequenceConstructible: Sequence {
+  init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
+}
 
 

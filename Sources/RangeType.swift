@@ -12,6 +12,9 @@ public protocol RangeType {
     associatedtype Bound: Comparable
     var lowerBound: Bound { get }
     var upperBound: Bound { get }
+
+    init(uncheckedBounds bounds: (lower: Bound, upper: Bound))
+
 }
 
 extension RangeType {
@@ -24,3 +27,4 @@ extension Range: RangeType { }
 extension CountableRange: RangeType { }
 extension ClosedRange: RangeType { }
 extension CountableClosedRange: RangeType { }
+
