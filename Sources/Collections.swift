@@ -87,7 +87,23 @@ public extension Collection where IndexDistance == Int {
     }
 }
 
+public extension BidirectionalCollection {
+    public var lastIndex: Index {
+        return index(before: endIndex)
+    }
 
+	public func lastIndex(predicate: (Iterator.Element) -> Bool) -> Index? {
+		var i = lastIndex
+		while i != startIndex {
+			if predicate(self[i]) {
+				return i
+			}
+			i = index(before: i)
+		}
+		return nil
+	}
+
+}
 
 public protocol SequenceConstructible: Sequence {
   init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
