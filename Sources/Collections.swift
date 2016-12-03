@@ -110,9 +110,12 @@ public extension MutableCollection where Index == Int, IndexDistance == Int {
 }
 
 public extension BidirectionalCollection {
+    /// Last valid index
     public var lastIndex: Index {
         return index(before: endIndex)
     }
+
+    // Find last index s.t. predicate
 
 	public func lastIndex(predicate: (Iterator.Element) -> Bool) -> Index? {
 		var i = lastIndex

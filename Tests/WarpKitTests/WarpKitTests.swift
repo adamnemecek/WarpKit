@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import WarpKit
+import WarpKit
 
 class WarpKitTests: XCTestCase {
     

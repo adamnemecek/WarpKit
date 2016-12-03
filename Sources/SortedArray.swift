@@ -83,6 +83,14 @@ extension SortedArray {
   public func sort() {
     return
   }
+
+  public var min: Element? {
+    return first
+  }
+
+  public var max: Element? {
+    return last
+  }
 }
 
 extension SortedArray: RangeReplaceableCollection {
