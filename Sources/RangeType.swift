@@ -25,6 +25,8 @@ extension RangeType {
 
 extension Range: RangeType { }
 extension CountableRange: RangeType { }
+
+
 extension ClosedRange: RangeType { }
 extension CountableClosedRange: RangeType { }
 

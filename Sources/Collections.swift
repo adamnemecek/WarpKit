@@ -42,6 +42,14 @@ extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntege
     }
 }
 
+extension BidirectionalCollection {
+    var extrema: (first: Iterator.Element, last: Iterator.Element)? {
+        return first.map { ($0, self.last!) }
+    }
+
+
+}
+
 extension Sequence where Iterator.Element: Hashable {
     public var unique: [Iterator.Element] {
         var s: Set<Iterator.Element> = []
@@ -69,21 +77,14 @@ extension Sequence where Iterator.Element: Hashable {
     }
 }
 
-public protocol DefaultConstructible {
-    init()
+public protocol SequenceConstructible: Sequence {
+  init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
 }
 
 extension Array: DefaultConstructible { }
 extension Dictionary: DefaultConstructible { }
 extension Set: DefaultConstructible { }
 
-extension Int: DefaultConstructible { }
-extension Double: DefaultConstructible { }
-extension Bool: DefaultConstructible { }
 
-
-public protocol SequenceConstructible: Sequence {
-  init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
-}
 
 
