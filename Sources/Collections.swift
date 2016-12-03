@@ -76,7 +76,7 @@ public extension Collection {
 
 public extension Collection where IndexDistance == Int {
     public var randomIndex: Index {
-        let offset = Int(arc4random_uniform(UInt32(count.toIntMax())))
+        let offset = randomInt(bound: count)
         return index(startIndex, offsetBy: offset)
     }
 

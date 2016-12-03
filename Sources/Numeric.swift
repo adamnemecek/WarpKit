@@ -32,3 +32,7 @@ extension Sequence where Iterator.Element: Movable {
         return map { $0.move(by: delta) }
     }
 }
+
+public func randomInt(bound: Int) -> Int {
+    return Int(arc4random_uniform(UInt32(bound)))
+}
