@@ -95,7 +95,7 @@ public extension Collection where IndexDistance == Int {
     }
 }
 
-extension MutableCollection where Index == Int, IndexDistance == Int {
+public extension MutableCollection where Index == Int, IndexDistance == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffleInPlace() {
         // empty and single-element collections don't shuffle
@@ -124,7 +124,6 @@ public extension BidirectionalCollection {
 		}
 		return nil
 	}
-
 }
 
 public protocol SequenceConstructible: Sequence {

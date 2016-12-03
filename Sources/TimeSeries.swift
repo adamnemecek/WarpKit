@@ -25,7 +25,7 @@ extension TimeSeriesCollection {
 }
 
 public protocol RRTS: TimeSeriesCollection {
-    func replaceTimerange<C : Collection>(_ timerange: Range<Timestamp>, with newElements: C) where C.Iterator.Element == Iterator.Element
+    func replaceTimerange<C : Collection>(_ timerange: ClosedRange<Timestamp>, with newElements: C) where C.Iterator.Element == Iterator.Element
 }
 
 
@@ -37,6 +37,7 @@ public protocol RRTS: TimeSeriesCollection {
 
 public struct TimeSeries<Event: Temporal>: MutableCollection,
                                            ExpressibleByArrayLiteral,
+                                           TimeSeriesCollection,
                                            DefaultConstructible,
                                            SequenceConstructible,
                                            Equatable {
@@ -89,7 +90,7 @@ public struct TimeSeries<Event: Temporal>: MutableCollection,
     }
   }
 
-  public subscript(between timerange: ClosedRange<Timestamp>) -> SubSequence {
+  public subscript(in timerange: ClosedRange<Timestamp>) -> SubSequence {
     get {
         let i = indices.filter { timerange.contains(self[$0].timestamp) }
         guard let f = i.first else { return [] }
