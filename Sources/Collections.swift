@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Sequence {
+public extension Sequence {
     public func all(predicate: (Iterator.Element) -> Bool) -> Bool {
         for e in self where !predicate(e) {
             return false
@@ -31,6 +31,31 @@ extension Sequence {
     }
 }
 
+extension Sequence where Iterator.Element: Comparable {
+    public var isSorted: Bool {
+        return zip(self, sorted()).all { $0 == $1 }
+    }
+}
+
+public extension Sequence where Iterator.Element: Hashable {
+    //
+    // dbj2
+    //
+    public var hashValue: Int {
+        return reduce(5381) {
+            (accu, current) -> Int in
+            (accu << 5) &+ accu &+ current.hashValue
+        }
+    }
+}
+
+public extension Sequence where Iterator.Element: Hashable {
+    public var unique: [Iterator.Element] {
+        var s: Set<Iterator.Element> = []
+        return filter { s.insert($0).inserted }
+    }
+}
+
 extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntegerLiteral {
     /// Initialize array with zeroes, ~10x faster than append for array of size 4096
     ///
@@ -42,40 +67,27 @@ extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntege
     }
 }
 
-//extension BidirectionalCollection {
-//    var extrema: (first: Iterator.Element, last: Iterator.Element)? {
-//        return first.map { ($0, self.last!) }
-//    }
-//
-//
-//}
-
-extension Sequence where Iterator.Element: Hashable {
-    public var unique: [Iterator.Element] {
-        var s: Set<Iterator.Element> = []
-        return filter { s.insert($0).inserted }
+public extension Collection {
+    public subscript (safe index: Index) -> Iterator.Element? {
+//        guard indices.contains(index) else { return nil }
+        return self[index]
     }
 }
 
-extension Collection where IndexDistance == Int {
-    /// Return a random element from the collection
-    public func random() -> Iterator.Element {
+public extension Collection where IndexDistance == Int {
+    public var randomIndex: Index {
         let offset = Int(arc4random_uniform(UInt32(count.toIntMax())))
-        return self[index(startIndex, offsetBy: offset)]
+        return index(startIndex, offsetBy: offset)
+    }
+
+    /// Return a random element from the collection
+    public var random: Iterator.Element? {
+        guard !isEmpty else { return nil }
+        return self[randomIndex]
     }
 }
 
-extension Sequence where Iterator.Element: Hashable {
-    //
-    // dbj2
-    //
-    var hashValue: Int {
-        return reduce(5381) {
-            (accu, current) -> Int in
-            (accu << 5) &+ accu &+ current.hashValue
-        }
-    }
-}
+
 
 public protocol SequenceConstructible: Sequence {
   init<S: Sequence>(_ seq: S) where S.Iterator.Element == Iterator.Element
@@ -87,8 +99,8 @@ extension Set: DefaultConstructible { }
 
 
 
-func ==<S: Sequence, T: Sequence>(lhs: S, rhs: T) -> Bool where S.Iterator.Element == T.Iterator.Element, S.Iterator.Element: Equatable {
-    return zip(lhs, rhs).all { $0 == $1 }
-}
+//func ==<S: Sequence, T: Sequence>(lhs: S, rhs: T) -> Bool where S.Iterator.Element == T.Iterator.Element, S.Iterator.Element: Equatable {
+//    return zip(lhs, rhs).all { $0 == $1 }
+//}
 
 

@@ -16,7 +16,6 @@ public protocol TimeSeriesCollection: BidirectionalCollection {
     /// self[timestamp...timestamp] == self[timestamp] == SubSequence
     ///
     subscript (in timerange: ClosedRange<Timestamp>) -> SubSequence { get }
-
 }
 
 extension TimeSeriesCollection {
