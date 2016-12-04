@@ -23,6 +23,9 @@ public class MIDITrackIterator<T: Temporal>: IteratorProtocol {
 
     public func next() -> T? {
         fatalError()
+        /*
+        while hasEvent(ref)
+        */
     }
 }
 
@@ -46,24 +49,29 @@ public struct MIDITrackSlice<T: Temporal>: Sequence {
         }
     }
 
+    func map(_ transform: (T) throws -> T) rethrows -> [T] {
+
+        return []
+    }
+
 //    public func index(after i: Index) -> Index {
 //        return i + 1
 //    }
 
 }
 
-class MIDITrackRef<T: Temporal>: Sequence {
+public class MIDITrackRef<T: Temporal>: Sequence {
     internal let ref: MusicTrack
 
-    init(ref: MusicTrack) {
+    internal init(ref: MusicTrack) {
         self.ref = ref
     }
 
-    func makeIterator() -> AnyIterator<T> {
+    public func makeIterator() -> AnyIterator<T> {
         fatalError()
     }
 
-    func filter(_ isIncluded: (T) throws -> Bool) rethrows -> [T] {
+    public func filter(_ isIncluded: (T) throws -> Bool) rethrows -> [T] {
         fatalError()
     }
 }
