@@ -31,13 +31,11 @@ public extension Sequence {
     }
 }
 
-extension Sequence where Iterator.Element: Comparable {
+public extension Sequence where Iterator.Element: Comparable {
     public var isSorted: Bool {
         return zip(self, sorted()).all { $0 == $1 }
     }
 }
-
-
 
 public extension Sequence where Iterator.Element: Hashable {
     //
@@ -58,7 +56,19 @@ public extension Sequence where Iterator.Element: Hashable {
     }
 }
 
-extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntegerLiteral {
+//public extension Sequence {
+//    func scan() ->  {
+//    }
+//}
+
+public extension Sequence {
+	public func count(where predicate: @escaping (Iterator.Element) -> Bool) -> Int {
+		return reduce(0) { $0 + Int(predicate($1)) }
+	}
+}
+
+
+public extension RangeReplaceableCollection where Iterator.Element: ExpressibleByIntegerLiteral {
     /// Initialize array with zeroes, ~10x faster than append for array of size 4096
     ///
     /// - parameter count: Number of elements in the array
@@ -97,7 +107,7 @@ public extension Collection where IndexDistance == Int {
 
 public extension MutableCollection where Index == Int, IndexDistance == Int {
     /// Shuffle the elements of `self` in-place.
-    mutating func shuffleInPlace() {
+    public mutating func shuffleInPlace() {
         // empty and single-element collections don't shuffle
         if count < 2 { return }
 

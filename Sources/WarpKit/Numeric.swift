@@ -36,3 +36,9 @@ extension Sequence where Iterator.Element: Movable {
 public func randomInt(bound: Int) -> Int {
     return Int(arc4random_uniform(UInt32(bound)))
 }
+
+public extension Int {
+    public init(_ value: Bool) {
+        self = value ? 1 : 0
+    }
+}

@@ -18,7 +18,6 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
   public typealias Index = Int
 
   fileprivate
-//  internal
   var content: [Element] {
     didSet {
       content = content.sorted()
@@ -72,6 +71,11 @@ public struct SortedArray<Element: Comparable>: MutableCollection,
     //todo actually do binary search lol
     return content.index(of: element)
 //    return nil
+  }
+
+  public func index(where predicate: (Element) throws -> Bool) rethrows -> Index? {
+
+    fatalError()
   }
 }
 

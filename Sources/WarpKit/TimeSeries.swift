@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol TimeSeriesCollection: BidirectionalCollection {
+public protocol Sequenceable: BidirectionalCollection {
     associatedtype Timestamp: Comparable
 
     ///
@@ -19,13 +19,13 @@ public protocol TimeSeriesCollection: BidirectionalCollection {
 
 }
 
-public extension TimeSeriesCollection {
+public extension Sequenceable {
 //    public subscript(at timestamp: Timestamp) -> SubSequence {
 //        return self[in: timestamp...timestamp]
 //    }
 }
 
-public protocol RRTS: TimeSeriesCollection {
+public protocol RRTS: Sequenceable {
     func replaceTimerange<C : Collection>(_ timerange: ClosedRange<Timestamp>, with newElements: C) where C.Iterator.Element == Iterator.Element
 }
 
